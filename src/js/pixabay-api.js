@@ -4,9 +4,9 @@ import 'izitoast/dist/css/iziToast.min.css';
 const GALLERY_LINK = 'gallery-link';
 const BASE_URL = 'https://pixabay.com/api/';
 
-function fetchImages(q) {
+async function fetchImages(q) {
   const searchParams = new URLSearchParams({
-    key: '42137546-386b5be41212ccd429cab5a80',
+    key: '42404284-d1db8811507a6ab98b0e3f497',
     q,
     image_type: 'photo',
     orientation: 'horizontal',
@@ -16,12 +16,21 @@ function fetchImages(q) {
   const PARAMS = `?${searchParams}`;
   const url = BASE_URL + PARAMS;
 
-  return fetch(url)
-    .then(response => response.json())
-    .catch(error => {
-      toastError(`Error fetching images: ${error}`);
-      throw error;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Failed to fetch images');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    iziToast.error({
+      title: 'Error',
+      message: `Error fetching images: ${error}`,
+      position: 'topRight',
     });
+    throw error;
+  }
 }
 
 export { fetchImages, GALLERY_LINK };

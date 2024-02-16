@@ -40,19 +40,35 @@ body::before {
 }
 
 .loader {
-  width: 60px;
-  height: 60px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-  margin: auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #ff3d00;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }
 
-@keyframes spin {
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  border: 2px solid #fff;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+@keyframes rotation {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
@@ -107,21 +123,21 @@ ul {
 }
 
 button {
-  color: #2f4f4f;
+  color: #fff;
   height: 40px;
   padding: 8px 16px;
   border: 1px solid #000000;
   border-radius: 8px;
   font-weight: 500;
   letter-spacing: 0.64px;
-  background-color: #9acd32;
+  background-color: #4e75ff;
   display: inline-block;
   font-size: medium;
   transition: 300ms;
 }
 
 button:hover {
-  background-color: #90ee90;
+  background-color: #6c8cff;
   transform: scale(1.05);
 }
 .gallery {
@@ -177,7 +193,7 @@ figure {
   padding: 4px 0;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #f5f5dc;
+  background-color: #fff;
   height: 48px;
   width: 100%;
 }
@@ -214,7 +230,6 @@ figure {
   padding-left: 16px;
 }
 
-/* Медіа-запит для десктопу та планшетів */
 @media (min-width: 768px) {
   .image-query {
     width: auto;
@@ -228,7 +243,6 @@ figure {
   }
 }
 
-/* Медіа-запит для мобільних пристроїв */
 @media (max-width: 767px) {
   .image-query {
     margin-bottom: 8px;
@@ -242,13 +256,14 @@ figure {
 }
 
 .no-results-message {
-  background-color: #f8d7da;
-  color: #721c24;
+  display: block;
+  background-color: #ff4e4e;
+  color: #fff;
   padding: 10px;
   border: 1px solid #050505;
   border-radius: 4px;
   text-align: center;
-  width: 240px;
+  width: 432px;
   position: absolute;
   top: 20px;
   right: 50px;

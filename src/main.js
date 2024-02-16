@@ -1,15 +1,14 @@
-import './js/pixabay-api.js';
-import './js/render-functions.js';
-
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import { fetchImages, GALLERY_LINK } from './js/pixabay-api';
+import { createGallery } from './js/render-functions';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import { fetchImages, GALLERY_LINK } from './js/pixabay-api';
-import { createGallery } from './js/render-functions';
-
-const galleryContainer = document.querySelector('.gallery');
+const galleryContainer = document.querySelector('#gallery');
 const searchForm = document.querySelector('.search-form');
 const loaderContainer = document.querySelector('.loader');
+const noResultsMessage = document.querySelector('.no-results-message');
 
 searchForm.addEventListener('submit', async function (event) {
   event.preventDefault();
@@ -18,6 +17,8 @@ searchForm.addEventListener('submit', async function (event) {
   if (queryInput === '') {
     return;
   }
+
+  loaderContainer.style.display = 'block';
 
   try {
     const { hits } = await fetchImages(queryInput);
@@ -29,13 +30,17 @@ searchForm.addEventListener('submit', async function (event) {
       const lightbox = new SimpleLightbox(`.${GALLERY_LINK}`);
       lightbox.refresh();
     } else {
-      galleryContainer.innerHTML =
-        '<p class="no-results-message">No images found.</p>';
+      noResultsMessage.style.display = 'block';
     }
   } catch (error) {
     console.error('Error fetching images:', error);
+    iziToast.error({
+      title: 'Error',
+      message: `Error fetching images: ${error.message}`,
+      position: 'topRight',
+    });
   } finally {
-    searchForm.reset();
     loaderContainer.style.display = 'none';
+    searchForm.reset();
   }
 });
