@@ -256,7 +256,7 @@ figure {
 }
 
 .no-results-message {
-  display: block;
+  display: none;
   background-color: #ff4e4e;
   color: #fff;
   padding: 10px;
